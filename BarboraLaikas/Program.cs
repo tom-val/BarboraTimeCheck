@@ -4,15 +4,20 @@ using System;
 using System.Linq;
 using System.Timers;
 using System.Configuration;
+using BarboraLaikas.Services;
+using System.Text;
 
 namespace BarboraLaikas
 {
     class Program
     {
+        private static IEmailService emailService;
         private static Timer timer;
         static void Main(string[] args)
         {
             Console.WriteLine("Starting Barbora delivery time checker");
+            emailService = new EmailService();
+
             CheckDeliveries();
 
             StartTimer();
@@ -67,10 +72,16 @@ namespace BarboraLaikas
             }
             else
             {
+                var deliveryText = new StringBuilder();
+                deliveryText.AppendLine("Available delivery times:");
                 foreach (var time in availableDeliveries)
                 {
                     Console.WriteLine($"Available delivery time: {time.deliveryTime}");
+                    deliveryText.AppendLine($"Available delivery time: {time.deliveryTime}");
                 }
+                deliveryText.AppendLine("Thank you for using Barbora Delivery time checker");
+
+                emailService.SendEmail("Delivery", deliveryText.ToString());
             }
         }
     }
