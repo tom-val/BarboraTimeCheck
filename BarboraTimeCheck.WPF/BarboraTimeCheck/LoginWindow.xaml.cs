@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BarboraTimeCheck.Services;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -24,6 +25,9 @@ namespace BarboraTimeCheck
 
         private void LoginButtonClick(object sender, RoutedEventArgs e)
         {
+            var barboraService = new BarboraService();
+            barboraService.Login("", "");
+            //Mouse.OverrideCursor = Cursors.Wait;
             errormessage.Text = "Thats some error!";
         }
     }
