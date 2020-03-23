@@ -13,14 +13,16 @@ namespace BarboraLaikas.Services
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient(ConfigurationManager.AppSettings["emailSmtp"]);
 
-            mail.From = new MailAddress(ConfigurationManager.AppSettings["emailUsername"]);
+            mail.From = new MailAddress("barboratest123@gmail.com");
             mail.To.Add(ConfigurationManager.AppSettings["deliveryEmail"]);
             mail.Subject = subject;
             mail.Body = text;
 
             SmtpServer.Port = 587;
+            SmtpServer.UseDefaultCredentials = false;
             SmtpServer.Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["emailUsername"], ConfigurationManager.AppSettings["emailPassword"]);
             SmtpServer.EnableSsl = true;
+            SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
 
             SmtpServer.Send(mail);
         }

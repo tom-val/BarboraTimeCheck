@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BarboraTimeCheck.Services;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -17,8 +18,12 @@ namespace BarboraTimeCheck
     /// </summary>
     public partial class MainWindow : Window
     {
+        SettingsService settingsService;
+        BarboraService barboraService;
         public MainWindow()
         {
+            settingsService = new SettingsService();
+            barboraService = new BarboraService();
             InitializeComponent();
         }
 
@@ -31,11 +36,19 @@ namespace BarboraTimeCheck
 
         private void Refresh_click(object sender, RoutedEventArgs e)
         {
+            Mouse.OverrideCursor = Cursors.Wait;
+            var settings = settingsService.GetSettings();
+            settingsService.CleatAuthInformation();
 
+            var authCookie = barboraService.Login(settings.Username, settings.Password);
+            settingsService.UpdateAuthInformation(settings.Username, settings.Password, authCookie);
+
+            Mouse.OverrideCursor = Cursors.Arrow;
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
+            settingsService.CleatAuthInformation();
             var loginWindow = new LoginWindow();
             loginWindow.Show();
             this.Close();

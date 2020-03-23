@@ -26,6 +26,7 @@ namespace BarboraTimeCheck.Services
             mail.Body = text;
 
             SmtpServer.Port = 587;
+            SmtpServer.UseDefaultCredentials = false;
             SmtpServer.Credentials = new System.Net.NetworkCredential(settings.EmailUsername, settings.EmailPassword);
             SmtpServer.EnableSsl = true;
 

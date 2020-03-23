@@ -18,7 +18,19 @@ namespace BarboraTimeCheck.Services
 
         public Settings GetSettings()
         {
-            return settings;
+            return new Settings
+            {
+                CheckInterval = settings.CheckInterval,
+                Username = settings.Username,
+                Password = settings.Password,
+                EmailNotifications = settings.EmailNotifications,
+                PushNotifications = settings.PushNotifications,
+                EmailUsername = settings.EmailUsername,
+                EmailPassword = settings.EmailPassword,
+                DeliveryEmail = settings.DeliveryEmail,
+                EmailSmtpServer = settings.EmailSmtpServer,
+                AuthCookie = settings.AuthCookie
+            };
         }
 
         public void UpdateCommonInformation(int checkInterval, bool emailNotifications, bool pushNotifications)
@@ -42,6 +54,14 @@ namespace BarboraTimeCheck.Services
             settings.Username = username;
             settings.Password = password;
             settings.AuthCookie = authCookie;
+            WriteSettingsToFile();
+        }
+
+        public void CleatAuthInformation()
+        {
+            settings.Username = string.Empty;
+            settings.Password = string.Empty;
+            settings.AuthCookie = string.Empty;
             WriteSettingsToFile();
         }
 
@@ -87,9 +107,9 @@ namespace BarboraTimeCheck.Services
                 CheckInterval = 30,
                 EmailNotifications = false,
                 PushNotifications = true,
-                EmailUsername = "barboratest123@gmail.com",
-                EmailPassword = "naujas11",
-                EmailSmtpServer = "smtp.gmail.com"
+                EmailUsername = "apikey",
+                EmailPassword = "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",
+                EmailSmtpServer = "smtp.sendgrid.net"
             };
         }
     }
