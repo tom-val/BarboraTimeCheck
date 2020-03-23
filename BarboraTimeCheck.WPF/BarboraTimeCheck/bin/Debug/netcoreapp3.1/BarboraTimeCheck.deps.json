@@ -9,7 +9,8 @@
       "BarboraTimeCheck/1.0.0": {
         "dependencies": {
           "BarboraTimeCheck.Services": "1.0.0",
-          "Microsoft.Extensions.DependencyInjection": "3.1.2"
+          "Microsoft.Extensions.DependencyInjection": "3.1.2",
+          "Notifications.Wpf": "0.1.1"
         },
         "runtime": {
           "BarboraTimeCheck.dll": {}
@@ -39,6 +40,14 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {
             "assemblyVersion": "12.0.0.0",
             "fileVersion": "12.0.3.23909"
+          }
+        }
+      },
+      "Notifications.Wpf/0.1.1": {
+        "runtime": {
+          "lib/net461/Notifications.Wpf.dll": {
+            "assemblyVersion": "0.1.1.0",
+            "fileVersion": "0.1.1.0"
           }
         }
       },
@@ -87,6 +96,13 @@
       "sha512": "sha512-6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
       "path": "newtonsoft.json/12.0.3",
       "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
+    },
+    "Notifications.Wpf/0.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uZQeeDXEkk0eQPGEhdNxCuAJ6R6NpCKxlMBFStwAjtXFk8t9j2SjVHvLN/FCr+oCKTkKOJPjOMvaXIS+AE7qxA==",
+      "path": "notifications.wpf/0.1.1",
+      "hashPath": "notifications.wpf.0.1.1.nupkg.sha512"
     },
     "RestSharp/106.10.1": {
       "type": "package",

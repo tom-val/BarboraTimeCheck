@@ -55,6 +55,11 @@ namespace BarboraTimeCheck.Services
             return settings.AuthCookie;
         }
 
+        public int GetInterval()
+        {
+            return settings.CheckInterval;
+        }
+
         private void CheckSettingsFile()
         {
             if (File.Exists(SettingsFileName))

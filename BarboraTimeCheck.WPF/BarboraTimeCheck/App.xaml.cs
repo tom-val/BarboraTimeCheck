@@ -1,10 +1,12 @@
 ﻿using BarboraTimeCheck.Services;
+using Notifications.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 
 namespace BarboraTimeCheck
@@ -28,6 +30,8 @@ namespace BarboraTimeCheck
                 var loginWindow = new LoginWindow();
                 loginWindow.Show();
             }
+
+            TimerManager.StartTimer();
         }
     }
 }
