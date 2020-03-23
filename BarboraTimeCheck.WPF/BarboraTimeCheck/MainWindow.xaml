@@ -10,11 +10,11 @@
         <TextBlock Height="23" HorizontalAlignment="Left" Margin="10,10,0,0" Name="LoginHeading" Text="Main" VerticalAlignment="Top" FontSize="17" FontStretch="ExtraCondensed"/>
         <Grid>
             <Label Margin="10,10,0,0" Content="Last check date:"/>
-            <TextBox IsEnabled="false" Margin="136,10,48,0" x:Name="lastCheckDate" Text="" TextWrapping="Wrap" Width="120" />
+            <TextBox IsEnabled="false" Margin="136,10,10,0" x:Name="lastCheckDate" Text="{Binding Path=(local:TimerManager.LastCheck), Mode=OneWay}" TextWrapping="Wrap" />
         </Grid>
         <Grid>
             <Label Margin="10,10,0,0" Content="Delivery times found:"/>
-            <TextBox IsEnabled="false" Margin="136,10,48,0" x:Name="deliveryTimesFound" Text="" TextWrapping="Wrap" Width="120" />
+            <TextBox IsEnabled="false" Margin="136,10,10,0" x:Name="deliveryTimesFound" Text="{Binding Path=(local:TimerManager.DeliveriesFound), Mode=OneWay}" TextWrapping="Wrap" />
         </Grid>
         <Button Margin="10,10,10,0" Content="Settings" Click="Settings_Click"/>
         <Button Margin="10,10,10,0" Content="Refresh token" Click="Refresh_click"/>
