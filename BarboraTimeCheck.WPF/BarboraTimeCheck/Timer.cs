@@ -27,19 +27,35 @@ namespace BarboraTimeCheck
             }
         }
 
-        private static int _deliveriesFound = 0;
+        private static int _availableDeliveriesFound = 0;
 
-        public static int DeliveriesFound
+        public static int AvailableDeliveriesFound
         {
             get
             {
-                return _deliveriesFound;
+                return _availableDeliveriesFound;
             }
 
             set
             {
-                _deliveriesFound = value;
-                OnStaticPropertyChanged("DeliveriesFound");
+                _availableDeliveriesFound = value;
+                OnStaticPropertyChanged("AvailableDeliveriesFound");
+            }
+        }
+
+        private static int _totalDeliveriesFound = 0;
+
+        public static int TotalDeliveriesFound
+        {
+            get
+            {
+                return _totalDeliveriesFound;
+            }
+
+            set
+            {
+                _totalDeliveriesFound = value;
+                OnStaticPropertyChanged("TotalDeliveriesFound");
             }
         }
 
@@ -99,16 +115,18 @@ namespace BarboraTimeCheck
                 var settings = configurationService.GetSettings();
                 var deliveries = barboraService.GetAvailableDeliveries();
 
-                if (!deliveries.Any())
+                TotalDeliveriesFound = deliveries.TotalDeliveries;
+
+                if (!deliveries.AvailableDeliveries.Any())
                 {
                     return;
                 }
 
-                DeliveriesFound = deliveries.Count;
+                AvailableDeliveriesFound = deliveries.AvailableDeliveries.Count;
 
                 var deliveryText = new StringBuilder();
                 deliveryText.AppendLine("Available delivery times:");
-                foreach (var delivery in deliveries)
+                foreach (var delivery in deliveries.AvailableDeliveries)
                 {
                     if (settings.PushNotifications)
                     {

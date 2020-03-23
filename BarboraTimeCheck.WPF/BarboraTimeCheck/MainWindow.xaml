@@ -13,8 +13,12 @@
             <TextBox IsEnabled="false" Margin="136,10,10,0" x:Name="lastCheckDate" Text="{Binding Path=(local:TimerManager.LastCheck), Mode=OneWay}" TextWrapping="Wrap" />
         </Grid>
         <Grid>
+            <Label Margin="10,10,0,0" Content="Avaialble delivery times found:"/>
+            <TextBox IsEnabled="false" Margin="187,10,10,0" x:Name="availaleDeliveryTimesFound" Text="{Binding Path=(local:TimerManager.AvailableDeliveriesFound), Mode=OneWay}" TextWrapping="Wrap" />
+        </Grid>
+        <Grid>
             <Label Margin="10,10,0,0" Content="Delivery times found:"/>
-            <TextBox IsEnabled="false" Margin="136,10,10,0" x:Name="deliveryTimesFound" Text="{Binding Path=(local:TimerManager.DeliveriesFound), Mode=OneWay}" TextWrapping="Wrap" />
+            <TextBox IsEnabled="false" Margin="136,10,10,0" x:Name="deliveryTimesFound" Text="{Binding Path=(local:TimerManager.TotalDeliveriesFound), Mode=OneWay}" TextWrapping="Wrap" />
         </Grid>
         <Button Margin="10,10,10,0" Content="Settings" Click="Settings_Click"/>
         <Button Margin="10,10,10,0" Content="Refresh token" Click="Refresh_click"/>
