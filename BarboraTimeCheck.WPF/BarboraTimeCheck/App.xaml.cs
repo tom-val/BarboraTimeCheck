@@ -1,4 +1,5 @@
 ﻿using BarboraTimeCheck.Services;
+using Hardcodet.Wpf.TaskbarNotification;
 using Notifications.Wpf;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,23 @@ namespace BarboraTimeCheck
     /// </summary>
     public partial class App : Application
     {
+        private TaskbarIcon tb;
+
+        private void InitApplication()
+        {
+            //initialize NotifyIcon
+            tb = (TaskbarIcon)FindResource("NotifyIcon");
+        }
+
         private void Application_Startup(object sender, StartupEventArgs e)
+        {     
+            InitializeWindow();
+            TimerManager.StartTimer();
+        }
+
+        private void InitializeWindow()
         {
             var configurationService = new SettingsService();
-
             if (configurationService.AuthenticationExists())
             {
                 var mainWindow = new MainWindow();
@@ -30,8 +44,11 @@ namespace BarboraTimeCheck
                 var loginWindow = new LoginWindow();
                 loginWindow.Show();
             }
+        }
 
-            TimerManager.StartTimer();
+        private void TaskbarIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            InitializeWindow();
         }
     }
 }

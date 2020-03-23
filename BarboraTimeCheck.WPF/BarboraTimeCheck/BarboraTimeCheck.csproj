@@ -7,12 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Icons\favicon.ico" />
+    <None Remove="red.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.0.8" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
     <PackageReference Include="Notifications.Wpf" Version="0.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BarboraTimeCheck.Services\BarboraTimeCheck.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icons\favicon.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\red.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
