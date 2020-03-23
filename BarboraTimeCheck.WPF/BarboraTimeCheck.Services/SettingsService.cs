@@ -45,6 +45,16 @@ namespace BarboraTimeCheck.Services
             WriteSettingsToFile();
         }
 
+        public bool AuthenticationExists()
+        {
+            return !string.IsNullOrEmpty(settings.Username) && !string.IsNullOrEmpty(settings.Password) && !string.IsNullOrEmpty(settings.AuthCookie);
+        }
+
+        public string GetAuthCookie()
+        {
+            return settings.AuthCookie;
+        }
+
         private void CheckSettingsFile()
         {
             if (File.Exists(SettingsFileName))

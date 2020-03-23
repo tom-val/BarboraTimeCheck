@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BarboraTimeCheck.Services;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,6 +14,20 @@ namespace BarboraTimeCheck
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            var configurationService = new SettingsService();
 
+            if (configurationService.AuthenticationExists())
+            {
+                var mainWindow = new MainWindow();
+                mainWindow.Show();
+            }
+            else
+            {
+                var loginWindow = new LoginWindow();
+                loginWindow.Show();
+            }
+        }
     }
 }

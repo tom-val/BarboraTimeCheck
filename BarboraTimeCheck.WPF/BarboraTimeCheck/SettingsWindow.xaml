@@ -30,6 +30,6 @@
             <Label Margin="10,10,0,0" Content="Smtp server"/>
             <TextBox Margin="126,10,50,0" x:Name="emailSmtpServer" Text="" TextWrapping="Wrap" />
         </Grid>
-        <Button Margin="10,10,0,0" Content="Save" Click="SaveClick"/>
+        <Button Margin="10,10,10,0" Content="Save" Click="SaveClick"/>
     </StackPanel>
 </Window>

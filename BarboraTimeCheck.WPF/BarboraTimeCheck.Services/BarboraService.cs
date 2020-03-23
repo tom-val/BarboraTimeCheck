@@ -1,16 +1,18 @@
-﻿using RestSharp;
+﻿using BarboraTimeCheck.Services.Models;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace BarboraTimeCheck.Services
 {
     public class BarboraService
     {
         private RestClient client;
+        private SettingsService settingsService;
         public BarboraService()
         {
+            settingsService = new SettingsService();
             client = new RestClient("https://www.barbora.lt/");
             client.AddDefaultHeader("Authorization", "Basic YXBpa2V5OlNlY3JldEtleQ==");
         }
@@ -24,12 +26,33 @@ namespace BarboraTimeCheck.Services
 
             var response = client.Post(request);
 
-            if(response.StatusCode != System.Net.HttpStatusCode.OK)
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
                 throw new Exception($"Error while logging into Barbora. Message: {response.Content}");
             }
 
             return response.Cookies.First(x => x.Name == ".BRBAUTH").Value;
+        }
+
+        public List<Hour> GetAvailableDeliveries()
+        {
+            var request = new RestRequest("api/eshop/v1/cart/deliveries", DataFormat.Json);
+            request.AddParameter(".BRBAUTH", settingsService.GetAuthCookie(), ParameterType.Cookie);
+
+            var response = client.Get<Deliveries>(request);
+
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception($"Error while getting deliveries. Message: {response.Content}");
+            }
+
+            var availableDeliveries = response.Data
+                                                .deliveries
+                                                .SelectMany(x => x.@params.matrix)
+                                                .SelectMany(x => x.hours)
+                                                .Where(x => x.available)
+                                                .ToList();
+            return availableDeliveries;
         }
     }
 }

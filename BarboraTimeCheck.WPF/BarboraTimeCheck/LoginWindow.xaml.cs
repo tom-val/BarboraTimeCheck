@@ -27,12 +27,15 @@ namespace BarboraTimeCheck
         {
             Mouse.OverrideCursor = Cursors.Wait;
             var barboraService = new BarboraService();
+            var settingsService = new SettingsService();
             try
             {
                 var email = textBoxEmail.Text;
                 var authCookie = barboraService.Login(textBoxEmail.Text, passwordBox.Password);
-                SettingsWindow settingsWindow = new SettingsWindow();
-                settingsWindow.Show();
+
+                settingsService.UpdateAuthInformation(textBoxEmail.Text, passwordBox.Password, authCookie);
+                var mainWindow = new MainWindow();
+                mainWindow.Show();
                 this.Close();
             }
             catch(Exception ex)

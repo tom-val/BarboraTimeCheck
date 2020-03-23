@@ -70,6 +70,10 @@ namespace BarboraTimeCheck
             settingsService.UpdateCommonInformation(int.Parse(refreshInterval.Text), emailNotifications.IsChecked.Value, pushNotifications.IsChecked.Value);
             
             Mouse.OverrideCursor = Cursors.Arrow;
+
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
 
         private bool EmailFieldsValid()
