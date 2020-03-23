@@ -1,6 +1,7 @@
 ﻿using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BarboraTimeCheck.Services
@@ -14,15 +15,21 @@ namespace BarboraTimeCheck.Services
             client.AddDefaultHeader("Authorization", "Basic YXBpa2V5OlNlY3JldEtleQ==");
         }
 
-        public void Login(string username, string password)
+        public string Login(string email, string password)
         {
             var request = new RestRequest("api/eshop/v1/user/login", DataFormat.Json);
-            request.AddParameter("email", "otasssss@gmail.com", ParameterType.GetOrPost);
-            request.AddParameter("password", "", ParameterType.GetOrPost);
+            request.AddParameter("email", email, ParameterType.GetOrPost);
+            request.AddParameter("password", password, ParameterType.GetOrPost);
             request.AddParameter("rememberMe", "true", ParameterType.GetOrPost);
 
             var response = client.Post(request);
 
+            if(response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                throw new Exception($"Error while logging into Barbora. Message: {response.Content}");
+            }
+
+            return response.Cookies.First(x => x.Name == ".BRBAUTH").Value;
         }
     }
 }

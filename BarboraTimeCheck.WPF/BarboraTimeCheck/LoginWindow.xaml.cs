@@ -25,10 +25,22 @@ namespace BarboraTimeCheck
 
         private void LoginButtonClick(object sender, RoutedEventArgs e)
         {
+            Mouse.OverrideCursor = Cursors.Wait;
             var barboraService = new BarboraService();
-            barboraService.Login("", "");
-            //Mouse.OverrideCursor = Cursors.Wait;
-            errormessage.Text = "Thats some error!";
+            try
+            {
+                var email = textBoxEmail.Text;
+                var authCookie = barboraService.Login(textBoxEmail.Text, passwordBox.Password);
+                SettingsWindow settingsWindow = new SettingsWindow();
+                settingsWindow.Show();
+                this.Close();
+            }
+            catch(Exception ex)
+            {
+                errormessage.Text = ex.Message;
+            }
+            
+            Mouse.OverrideCursor = Cursors.Arrow;
         }
     }
 }
