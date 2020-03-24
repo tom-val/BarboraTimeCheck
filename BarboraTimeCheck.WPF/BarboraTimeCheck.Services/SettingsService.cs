@@ -107,9 +107,6 @@ namespace BarboraTimeCheck.Services
                 CheckInterval = 30,
                 EmailNotifications = false,
                 PushNotifications = true,
-                EmailUsername = "apikey",
-                EmailPassword = "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",
-                EmailSmtpServer = "smtp.sendgrid.net"
             };
         }
     }
