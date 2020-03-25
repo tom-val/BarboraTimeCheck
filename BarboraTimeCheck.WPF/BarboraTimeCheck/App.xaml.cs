@@ -1,5 +1,6 @@
 ﻿using BarboraTimeCheck.Services;
 using Hardcodet.Wpf.TaskbarNotification;
+using log4net;
 using Notifications.Wpf;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,14 @@ namespace BarboraTimeCheck
     /// </summary>
     public partial class App : Application
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(App));
         private TaskbarIcon tb;
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            log.Info("        =============  Started Logging  =============        ");
+            base.OnStartup(e);
+        }
 
         private void InitApplication()
         {

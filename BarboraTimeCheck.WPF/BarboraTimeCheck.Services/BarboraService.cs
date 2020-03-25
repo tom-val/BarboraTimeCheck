@@ -1,4 +1,5 @@
 ﻿using BarboraTimeCheck.Services.Models;
+using log4net;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace BarboraTimeCheck.Services
     {
         private RestClient client;
         private SettingsService settingsService;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public BarboraService()
         {
             settingsService = new SettingsService();
@@ -19,6 +21,7 @@ namespace BarboraTimeCheck.Services
 
         public string Login(string email, string password)
         {
+            log.Info("Starting login");
             var request = new RestRequest("api/eshop/v1/user/login", DataFormat.Json);
             request.AddParameter("email", email, ParameterType.GetOrPost);
             request.AddParameter("password", password, ParameterType.GetOrPost);
@@ -26,23 +29,31 @@ namespace BarboraTimeCheck.Services
 
             var response = client.Post(request);
 
+            log.Info($"Login response data: {response.Content}");
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
+                log.Error($"Error while logging in. Used parameters: {email} {password}");
                 throw new Exception($"Error while logging into Barbora. Message: {response.Content}");
             }
 
-            return response.Cookies.First(x => x.Name == ".BRBAUTH").Value;
+            var brAuthCookie = response.Cookies.First(x => x.Name == ".BRBAUTH");
+            log.Error($".BRBAUTH Cookie: {brAuthCookie.Value}");
+            return brAuthCookie.Value;
         }
 
         public DeliveriesResult GetAvailableDeliveries()
         {
+            log.Info("Starting to get deliveries");
             var request = new RestRequest("api/eshop/v1/cart/deliveries", DataFormat.Json);
             request.AddParameter(".BRBAUTH", settingsService.GetAuthCookie(), ParameterType.Cookie);
 
             var response = client.Get<Deliveries>(request);
 
+            log.Info($"Deliveries response: {response.Content}");
+
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
             {
+                log.Error($"Error getting deliveries. AuthCookie: {settingsService.GetAuthCookie()}");
                 throw new Exception($"Error while getting deliveries. Message: {response.Content}");
             }
 
@@ -54,6 +65,9 @@ namespace BarboraTimeCheck.Services
             var availableDeliveries = deliveryHours
                                                 .Where(x => x.available)
                                                 .ToList();
+
+            log.Info($"Deliveries found: {deliveryHours.Count()}");
+            log.Info($"Available deliveries: {availableDeliveries.Count}");
             return new DeliveriesResult
             {
                 AvailableDeliveries = availableDeliveries,
