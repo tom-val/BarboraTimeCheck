@@ -20,7 +20,7 @@ namespace BarboraTimeCheck.Services
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient(settings.EmailSmtpServer);
 
-            mail.From = new MailAddress(settings.EmailUsername);
+            mail.From = new MailAddress(settings.EmailFrom);
             mail.To.Add(settings.DeliveryEmail);
             mail.Subject = subject;
             mail.Body = text;

@@ -48,6 +48,7 @@ namespace BarboraTimeCheck
             emailPassword.Text = settings.EmailPassword;
             deliveryEmail.Text = settings.DeliveryEmail;
             emailSmtpServer.Text = settings.EmailSmtpServer;
+            emailFrom.Text = settings.EmailFrom;
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
@@ -65,7 +66,7 @@ namespace BarboraTimeCheck
                 {
                     return;
                 }
-                settingsService.UpdateEmailInformation(emailUsername.Text, emailPassword.Text, emailSmtpServer.Text, deliveryEmail.Text);
+                settingsService.UpdateEmailInformation(emailFrom.Text, emailUsername.Text, emailPassword.Text, emailSmtpServer.Text, deliveryEmail.Text);
             }
             settingsService.UpdateCommonInformation(int.Parse(refreshInterval.Text), emailNotifications.IsChecked.Value, pushNotifications.IsChecked.Value);
             
@@ -81,6 +82,7 @@ namespace BarboraTimeCheck
             return (!string.IsNullOrEmpty(emailUsername.Text) &&
                     !string.IsNullOrEmpty(emailPassword.Text) &&
                     !string.IsNullOrEmpty(deliveryEmail.Text) &&
+                    !string.IsNullOrEmpty(emailFrom.Text) &&
                      !string.IsNullOrEmpty(emailSmtpServer.Text));
         }
 
@@ -90,6 +92,7 @@ namespace BarboraTimeCheck
             emailPasswordGrid.Visibility = Visibility.Visible;
             emailSmtpGrid.Visibility = Visibility.Visible;
             emailDeliveryGrid.Visibility = Visibility.Visible;
+            emailFromGrid.Visibility = Visibility.Visible;
         }
 
         private void emailNotifications_Unchecked(object sender, RoutedEventArgs e)
@@ -98,6 +101,7 @@ namespace BarboraTimeCheck
             emailPasswordGrid.Visibility = Visibility.Collapsed;
             emailSmtpGrid.Visibility = Visibility.Collapsed;
             emailDeliveryGrid.Visibility = Visibility.Collapsed;
+            emailFromGrid.Visibility = Visibility.Collapsed;
         }
     }
 }

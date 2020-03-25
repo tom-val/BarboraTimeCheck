@@ -10,7 +10,7 @@ namespace BarboraTimeCheck.Services
 {
     public class SettingsService
     {
-        private Settings settings;
+        private static Settings settings;
         private readonly string SettingsFileName = "settings.json";
 
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -32,7 +32,8 @@ namespace BarboraTimeCheck.Services
                 EmailPassword = settings.EmailPassword,
                 DeliveryEmail = settings.DeliveryEmail,
                 EmailSmtpServer = settings.EmailSmtpServer,
-                AuthCookie = settings.AuthCookie
+                AuthCookie = settings.AuthCookie,
+                EmailFrom = settings.EmailFrom
             };
         }
 
@@ -44,12 +45,14 @@ namespace BarboraTimeCheck.Services
             WriteSettingsToFile();
         }
 
-        public void UpdateEmailInformation(string emailUsername, string emailPassword, string emailSmtp, string deliveryEmail)
+        public void UpdateEmailInformation(string emailFrom, string emailUsername, string emailPassword, string emailSmtp, string deliveryEmail)
         {
+            settings.EmailFrom = emailFrom;
             settings.EmailUsername = emailUsername;
             settings.EmailPassword = emailPassword;
             settings.EmailSmtpServer = emailSmtp;
             settings.DeliveryEmail = deliveryEmail;
+            WriteSettingsToFile();
         }
 
         public void UpdateAuthInformation(string username, string password, string authCookie)

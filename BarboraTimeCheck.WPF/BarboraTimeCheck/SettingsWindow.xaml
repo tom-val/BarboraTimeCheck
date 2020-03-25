@@ -14,6 +14,10 @@
         </Grid>
         <CheckBox Margin="10,10,0,0" Content="Push notifications" x:Name="pushNotifications" RenderTransformOrigin="0.468,-5.781"/>
         <CheckBox Margin="10,10,0,0" Content="Email notifications" x:Name="emailNotifications" Checked="emailNotifications_Checked" Unchecked="emailNotifications_Unchecked"/>
+        <Grid Name="emailFromGrid">
+            <Label Margin="10,10,0,0" Content="Email from"/>
+            <TextBox Margin="126,10,50,0" x:Name="emailFrom" Text="" TextWrapping="Wrap"/>
+        </Grid>
         <Grid Name="emailUsernameGrid">
             <Label Margin="10,10,0,0" Content="Email username"/>
             <TextBox Margin="126,10,50,0" x:Name="emailUsername" Text="" TextWrapping="Wrap"/>

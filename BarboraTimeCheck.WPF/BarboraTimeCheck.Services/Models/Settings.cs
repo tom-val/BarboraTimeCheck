@@ -11,6 +11,7 @@ namespace BarboraTimeCheck.Services.Models
         public string Password { get; set; }
         public bool EmailNotifications { get; set; }
         public bool PushNotifications { get; set; }
+        public string EmailFrom { get; set; }
         public string EmailUsername { get; set; }
         public string EmailPassword { get; set; }
         public string DeliveryEmail { get; set; }
