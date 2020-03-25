@@ -1,4 +1,5 @@
 ﻿using BarboraTimeCheck.Services.Models;
+using log4net;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace BarboraTimeCheck.Services
     {
         private Settings settings;
         private readonly string SettingsFileName = "settings.json";
+
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public SettingsService()
         {
             CheckSettingsFile();
@@ -84,11 +87,13 @@ namespace BarboraTimeCheck.Services
         {
             if (File.Exists(SettingsFileName))
             {
+                log.Info($"Reading settings from file: {Path.GetFullPath(SettingsFileName)}");
                 var jsonText = File.ReadAllText(SettingsFileName);
                 settings = JsonConvert.DeserializeObject<Settings>(jsonText);
             }
             else
             {
+                log.Info($"Creating new settings file: {Path.GetFullPath(SettingsFileName)}");
                 settings = CreateDefaultSettings();
                 WriteSettingsToFile();
             }

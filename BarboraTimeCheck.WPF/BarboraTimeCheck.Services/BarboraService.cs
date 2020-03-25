@@ -15,7 +15,7 @@ namespace BarboraTimeCheck.Services
         public BarboraService()
         {
             settingsService = new SettingsService();
-            client = new RestClient("https://www.barbora.lt/");
+            client = new RestClient("https://barbora.lt/");
             client.AddDefaultHeader("Authorization", "Basic YXBpa2V5OlNlY3JldEtleQ==");
         }
 
@@ -26,6 +26,7 @@ namespace BarboraTimeCheck.Services
             request.AddParameter("email", email, ParameterType.GetOrPost);
             request.AddParameter("password", password, ParameterType.GetOrPost);
             request.AddParameter("rememberMe", "true", ParameterType.GetOrPost);
+            request.AddParameter("region", "barbora.lt", ParameterType.Cookie);
 
             var response = client.Post(request);
 
@@ -46,6 +47,7 @@ namespace BarboraTimeCheck.Services
             log.Info("Starting to get deliveries");
             var request = new RestRequest("api/eshop/v1/cart/deliveries", DataFormat.Json);
             request.AddParameter(".BRBAUTH", settingsService.GetAuthCookie(), ParameterType.Cookie);
+            request.AddParameter("region", "barbora.lt", ParameterType.Cookie);
 
             var response = client.Get<Deliveries>(request);
 

@@ -1,4 +1,5 @@
 ﻿using BarboraTimeCheck.Services;
+using log4net;
 using Notifications.Wpf;
 using System;
 using System.ComponentModel;
@@ -11,6 +12,8 @@ namespace BarboraTimeCheck
 {
     public static class TimerManager
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private static string _lastCheckString = "Not checked yet";
 
         public static string LastCheck
@@ -73,7 +76,7 @@ namespace BarboraTimeCheck
         private static EmailService emailService = new EmailService();
 
         public static void StartTimer()
-        {          
+        {
             if (gAppTimer == null)
             {
                 lock (lockObject)
@@ -108,42 +111,51 @@ namespace BarboraTimeCheck
 
         public static void Action()
         {
-            if (configurationService.AuthenticationExists())
+            try
             {
-                LastCheck = DateTime.Now.ToString();
-
-                var settings = configurationService.GetSettings();
-                var deliveries = barboraService.GetAvailableDeliveries();
-
-                TotalDeliveriesFound = deliveries.TotalDeliveries;
-
-                if (!deliveries.AvailableDeliveries.Any())
+                log.Info("Delivery check timer elapsed");
+                log.Info($"Authentication exists: {configurationService.AuthenticationExists()}");
+                if (configurationService.AuthenticationExists())
                 {
-                    return;
-                }
+                    LastCheck = DateTime.Now.ToString();
 
-                AvailableDeliveriesFound = deliveries.AvailableDeliveries.Count;
+                    var settings = configurationService.GetSettings();
+                    var deliveries = barboraService.GetAvailableDeliveries();
 
-                var deliveryText = new StringBuilder();
-                deliveryText.AppendLine("Available delivery times:");
-                foreach (var delivery in deliveries.AvailableDeliveries)
-                {
-                    if (settings.PushNotifications)
+                    TotalDeliveriesFound = deliveries.TotalDeliveries;
+
+                    if (!deliveries.AvailableDeliveries.Any())
                     {
-                        deliveryText.AppendLine($"Available delivery time: {delivery.deliveryTime}");
-                        notificationManager.Show(new NotificationContent
+                        return;
+                    }
+
+                    AvailableDeliveriesFound = deliveries.AvailableDeliveries.Count;
+
+                    var deliveryText = new StringBuilder();
+                    deliveryText.AppendLine("Available delivery times:");
+                    foreach (var delivery in deliveries.AvailableDeliveries)
+                    {
+                        if (settings.PushNotifications)
                         {
-                            Title = "Delivery time found",
-                            Message = $"Found delivery time: {delivery.deliveryTime}",
-                            Type = NotificationType.Information
-                        }, expirationTime: System.TimeSpan.FromMinutes(60));
+                            deliveryText.AppendLine($"Available delivery time: {delivery.deliveryTime}");
+                            notificationManager.Show(new NotificationContent
+                            {
+                                Title = "Delivery time found",
+                                Message = $"Found delivery time: {delivery.deliveryTime}",
+                                Type = NotificationType.Information
+                            }, expirationTime: System.TimeSpan.FromMinutes(60));
+                        }
+                    }
+
+                    if (settings.EmailNotifications)
+                    {
+                        emailService.SendEmail("Delivery", deliveryText.ToString());
                     }
                 }
-
-                if (settings.EmailNotifications)
-                {
-                    emailService.SendEmail("Delivery", deliveryText.ToString());
-                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Exeption while running timer action.", ex);
             }
         }
     }
